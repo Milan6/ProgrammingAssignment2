@@ -20,7 +20,7 @@ makeCacheMatrix <- function(x = matrix()) {
 
 
 ## Write a short comment describing this function
-# Function compute the inverse of a matrix and cache it if not already cached, otherwise getting cached inverse
+# Function returns the inverse of a matrix if it already exists, otherwise it is asked whether it is possible to compute the inverse by det(x$get())!=0 (the determinant of the matrix should be unequal to zero). If the statement returns TRUE the inverse is computed an cached otherwise the message "matrix not invertible" is printed out
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
@@ -29,8 +29,13 @@ cacheSolve <- function(x, ...) {
                 message("getting cached data")
                 return(i)
         }
-        data <- x$get()
-        i <- solve(data, ...)
-        x$setinverse(i)
-        i
+	else if(det(x$get())!=0) {
+		data <- x$get()
+        	i <- solve(data, ...)
+        	x$setinverse(i)
+        	return(i)
+	}
+	else {
+		message("matrix not invertible")
+	}
 }
